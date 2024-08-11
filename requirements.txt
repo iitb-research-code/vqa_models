@@ -2,3 +2,5 @@ transformers
 pillow
 torch
 torchvision
+scikit-learn
+rouge_score
