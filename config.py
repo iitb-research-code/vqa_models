@@ -13,6 +13,8 @@ SAMPLE_QUESTION = "What is the Subject of the document?"
 IMAGES_DIR = "/data/BADRI/MISC/CIRCULARS/data/batch1/images/"
 JSON_FILE = "/data/BADRI/MISC/CIRCULARS/data/data_final.json"
 
+RESULTS_FILE = "/data/BADRI/MISC/CIRCULARS/data/data_final_fintune.json"
+
 
 # Hyperparamters
 MAX_PATCHES = 1024
