@@ -1,4 +1,6 @@
-# Pix2Struct
+# VQA MODELS
+
+## Pix2Struct
 
 
 ### Simple Inference from DocVQA Finetuned Model for Image samples
@@ -25,3 +27,8 @@ NOTE: Sample Images and Questions along with Model details are present in config
 1. pip install -r requirements.txt
 2. python basic_hf_finetune.py # Finetunes on AQAA dataset with provided path
 ```
+
+
+## PALI
+
+## TILT
