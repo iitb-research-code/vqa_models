@@ -39,22 +39,31 @@ def evaluate_anls(pred_answers, ground_truth_answers):
     anls_score = np.mean(similarities)
     return anls_score
 
-with open(RESULTS_FILE) as f:
+# with open(RESULTS_FILE) as f:
+#     data = json.load(f)
+
+#Load json file
+with open('/data/BADRI/RESEARCH/CIRCULARS/results/v1_inference_results.json', 'r') as f:
     data = json.load(f)
     
-pred_answers = []
-ground_truth_answers = []
+reference = []
+prediction = []
 
+
+for key, value in data.items():
+    for item in value:
+        reference.append(item['ground_truth'])
+        prediction.append(item['predicted_answer'])
     
-for file in data:
-    # print(file["file_name"])
-    for qa in file["question_answer_pairs"]:
-        try:
-            pred_answers.append(qa["pred_answer"])
-            ground_truth_answers.append([qa["answer"]])
-        except:
-            print(qa)
-            exit()
+# for file in data:
+#     # print(file["file_name"])
+#     for qa in file["question_answer_pairs"]:
+#         try:
+#             pred_answers.append(qa["pred_answer"])
+#             ground_truth_answers.append([qa["answer"]])
+#         except:
+#             print(qa)
+#             exit()
 
-anls_score = evaluate_anls(pred_answers, ground_truth_answers)
+anls_score = evaluate_anls(prediction, reference)
 print(f"ANLS Score: {anls_score:.4f}")

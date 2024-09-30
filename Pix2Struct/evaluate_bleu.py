@@ -55,22 +55,38 @@ def evaluate_bleu(pred_answers, ground_truth_answers):
     
     return bleu_scores
 
-with open(RESULTS_FILE) as f:
-    data = json.load(f)
+# with open(RESULTS_FILE) as f:
+#     data = json.load(f)
     
-pred_answers = []
-ground_truth_answers = []
+# pred_answers = []
+# ground_truth_answers = []
 
     
-for file in data:
-    # print(file["file_name"])
-    for qa in file["question_answer_pairs"]:
-        try:
-            pred_answers.append(qa["pred_answer"])
-            ground_truth_answers.append([qa["answer"]])
-        except:
-            print(qa)
-            exit()
+# for file in data:
+#     # print(file["file_name"])
+#     for qa in file["question_answer_pairs"]:
+#         try:
+#             pred_answers.append(qa["pred_answer"])
+#             ground_truth_answers.append([qa["answer"]])
+#         except:
+#             print(qa)
+#             exit()
+
+#Load json file
+with open('/data/BADRI/RESEARCH/CIRCULARS/results/v1_inference_results.json', 'r') as f:
+    data = json.load(f)
+    
+reference = []
+prediction = []
+
+
+for key, value in data.items():
+    for item in value:
+        reference.append(item['ground_truth'])
+        prediction.append(item['predicted_answer'])
+        
+pred_answers = prediction
+ground_truth_answers = reference
     
 
 # bleu_scores = evaluate_bleu(pred_answers, ground_truth_answers)

@@ -5,3 +5,5 @@ torchvision
 scikit-learn
 rouge_score
 Levenshtein
+nltk
+rouge-score
