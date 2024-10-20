@@ -6,7 +6,7 @@ from nltk.translate.bleu_score import sentence_bleu
 import evaluate
 from Levenshtein import distance
 bleu = evaluate.load("bleu")
-
+from anls import anls_score
 
 def normalize_answer(s):
     """Lower text and remove punctuation, articles and extra whitespace."""
@@ -63,30 +63,21 @@ def get_bleu_score(prediction, ground_truth):
     return results['bleu']
 
 def get_anls_score(reference, hypothesis):
-    
-    anls_scores = []
-    for ref, hyp in zip(reference, hypothesis):
-
-        levenshtein_distance = distance(ref, hyp)
-        # Normalize the distance by the reference length
-        normalized_distance = levenshtein_distance / max(len(ref), 1)  # Avoid division by zero
-        # Calculate ANLS score (maximum is 1, minimum is 0)
-        anls_score = max(0, 1 - normalized_distance)
-        anls_scores.append(anls_score)
-    return sum(anls_scores) / len(anls_scores) if anls_scores else 0
+    anls_score_val = anls_score(prediction=hypothesis, gold_labels=[reference], threshold=0.5)
+    return anls_score_val
 
 
 def evaluate(reference, prediction):
-    f1 = exact_match = total = jacard_sim = 0
+    exact_match = f1 = jacard_sim = rouge_score = bleu_score = anls_score = total = 0
     for i in range(len(reference)):
         ground_truths = reference[i]
         prediction_ = prediction[i]
         exact_match += metric_max_over_ground_truths(exact_match_score, prediction_, ground_truths)
         f1 += metric_max_over_ground_truths(f1_score, prediction_, ground_truths)
         jacard_sim += jacard(prediction_, ground_truths)
-        rouge_score = get_rouge_score(prediction_, ground_truths)
-        bleu_score = get_bleu_score(prediction_, ground_truths)
-        anls_score = get_anls_score(prediction_, ground_truths)
+        rouge_score += get_rouge_score(prediction_, ground_truths)
+        bleu_score += get_bleu_score(prediction_, ground_truths)
+        anls_score += get_anls_score(prediction_, ground_truths)
         total=total+1
     exact_match = 100.0 * exact_match / total
     f1 = 100.0 * f1 / total

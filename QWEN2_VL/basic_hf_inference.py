@@ -31,15 +31,14 @@ max_pixels = 1280*28*28
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-2B-Instruct", min_pixels=min_pixels, max_pixels=max_pixels)
 
 messages = [
+
     {
         "role": "user",
         "content": [
-            {"type": "image", "image": "/data/BADRI/RESEARCH/CIRCULARS/doc_vlm_application/data/uploads/21_01.jpg"},
-            {"type": "text", "text": {}"What is the title of the image?"},
-            # {"type": "text", "qu": "What is the date of the image?"},
-
+            {"type": "image", "image": "/data/BADRI/RESEARCH/CIRCULARS/doc_vlm_application/data/testset/14_circ1947_fp.png"},
+            {"type": "text", "text": "Generate Extractive question answer pairs for the image."},
         ],
-    }
+    },
 ]
 
 
@@ -54,7 +53,7 @@ inputs = inputs.to(device)
 
 
 # Inference: Generation of the output
-generated_ids = model.generate(**inputs, max_new_tokens=64)
+generated_ids = model.generate(**inputs, max_new_tokens=1024)
 generated_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)]
 output_text = processor.batch_decode(generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)
 

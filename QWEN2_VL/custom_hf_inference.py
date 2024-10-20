@@ -7,9 +7,15 @@ from tqdm import tqdm
 import os
 
 
-device = "cuda:0"
+# Free up memory
+torch.cuda.empty_cache()
 
-results_dir = "/data/BADRI/RESEARCH/CIRCULARS/results/"
+
+device = "cuda"
+
+results_dir = "/data/BADRI/RESEARCH/CIRCULARS/results/iter2/qwen/v2/"
+
+print("Loading model...")
 
 # We recommend enabling flash_attention_2 for better acceleration and memory saving, especially in multi-image and video scenarios.
 model = Qwen2VLForConditionalGeneration.from_pretrained(
@@ -57,8 +63,8 @@ def custom_hf_inference(messages):
 #     }
 # ]
 
-images_dir = "/data/BADRI/RESEARCH/CIRCULARS/doc_vlm_application/data/images/final_testset/"
-json_data = json.load(open("/data/BADRI/RESEARCH/CIRCULARS/doc_vlm_application/data/all_qna_pairs.json"))
+images_dir = "/data/BADRI/RESEARCH/CIRCULARS/DATA/CIRCULARS_TESTSET/final/"
+json_data = json.load(open("/data/BADRI/RESEARCH/CIRCULARS/DATA/CIRCULARS_TESTSET/final_annotations.json"))
 
 
 # run inference for each image
@@ -90,6 +96,8 @@ for image_filename, qa_pairs in json_data.items():
         
         try:
             output = custom_hf_inference(message)
+            # print(output)
+            # exit()
             predicted_answer = output[0] if output else ""
             
             image_results.append({
@@ -109,7 +117,7 @@ for image_filename, qa_pairs in json_data.items():
 # Save results to a JSON file
 output_file = "inference_results.json"
 with open(output_file, "w") as f:
-    json.dump(results, f, indent=2)
+    json.dump(results, f, indent=4, ensure_ascii=False)
 
 print(f"Results saved to {output_file}")
             

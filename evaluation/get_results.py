@@ -6,10 +6,30 @@ def get_results(reference, prediction):
     return evaluate(reference, prediction)
 
 
-#Load json file
-with open('/data/BADRI/RESEARCH/CIRCULARS/results/v2_inference_results.json', 'r') as f:
+# #Load json file
+# with open('/data/BADRI/RESEARCH/CIRCULARS/results/qwen/v3_inference_results.json', 'r') as f:
+#     data = json.load(f)
+    
+    
+# use utf-8 encoding
+with open('/data/BADRI/RESEARCH/CIRCULARS/results/iter2/qwen/inference_results.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
     
+# Clean the data
+for key, value in data.items():
+    for item in value:
+        # item['ground_truth'] = item['ground_truth'].replace(".", "")
+        # item['predicted_answer'] = item['predicted_answer'].replace(".", "")
+        
+        #Replace . at the end of the string
+        item['ground_truth'] = item['ground_truth'].rstrip('.')
+        item['predicted_answer'] = item['predicted_answer'].rstrip('.')
+        
+        #lower case
+        item['ground_truth'] = item['ground_truth'].lower()
+        item['predicted_answer'] = item['predicted_answer'].lower()
+        
+
 
 # make a list of reference and prediction
 reference = []
