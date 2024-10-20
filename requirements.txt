@@ -7,3 +7,6 @@ rouge_score
 Levenshtein
 nltk
 rouge-score
+einops
+timm
+accelerate
