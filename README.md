@@ -32,3 +32,11 @@ NOTE: Sample Images and Questions along with Model details are present in config
 ## PALI
 
 ## TILT
+
+## QWEN
+
+## NVLM
+
+## LLaMA3.2
+
+## LLaVA
